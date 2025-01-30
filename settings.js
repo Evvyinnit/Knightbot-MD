@@ -1,6 +1,6 @@
 const settings = {
   packname: 'Knight',
-  author: 'Bot',
+  author: 'Nimesh',
   botName: "Knight Bot",
   botOwner: 'Nimesh D. Bandara', // Your name
   ownerNumber: '+94761206570', //Your number
