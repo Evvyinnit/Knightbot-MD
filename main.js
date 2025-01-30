@@ -72,8 +72,8 @@ const viewOnceCommand = require('./commands/viewonce');
 // Global settings
 global.packname = settings.packname;
 global.author = settings.author;
-global.channelLink = "https://whatsapp.com/channel/0029Va90zAnIHphOuO8Msp3A";
-global.ytch = "Mr Unique Hacker";
+global.channelLink = "https://whatsapp.com/channel/0029Vb4ZOLz9cDDUE7c03u35";
+global.ytch = "Nimesh D. Bandara";
 
 // Add this near the top of main.js with other global configurations
 const channelInfo = {
