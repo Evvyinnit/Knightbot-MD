@@ -37,8 +37,8 @@ async function attpCommand(sock, chatId, message) {
         await sock.sendMessage(chatId, {
             sticker: stickerBuffer,
             mimetype: 'image/webp',
-            packname: 'My Sticker Pack', 
-            author: 'My Bot', 
+            packname: 'කස්ටම් පැක් 1', 
+            author: 'Nimesh D. Bandara', 
         });
 
         fs.unlinkSync(stickerPath);
