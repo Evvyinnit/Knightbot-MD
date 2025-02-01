@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 require('../config.js');
 
+const GENIUS_API_KEY = global.APIKeys['https://api.genius.com']; // Make sure your config has this
+
 async function lyricsCommand(sock, chatId, songTitle) {
     if (!songTitle) {
         await sock.sendMessage(chatId, { 
@@ -10,27 +12,27 @@ async function lyricsCommand(sock, chatId, songTitle) {
     }
 
     try {
-        // Validate global API keys
-        if (!global.APIs?.xteam || !global.APIKeys?.['https://api.xteam.xyz']) {
-            throw new Error('API configuration is missing.');
+        if (!GENIUS_API_KEY) {
+            throw new Error('Missing Genius API Key.');
         }
 
-        const apiUrl = `${global.APIs.xteam}/api/lirik?q=${encodeURIComponent(songTitle)}&apikey=${global.APIKeys['https://api.xteam.xyz']}`;
-        const res = await fetch(apiUrl);
-        
-        if (!res.ok) {
-            throw new Error(`API responded with status: ${res.status}`);
-        }
+        // Step 1: Search for the song
+        const searchUrl = `https://api.genius.com/search?q=${encodeURIComponent(songTitle)}&access_token=${GENIUS_API_KEY}`;
+        const searchRes = await fetch(searchUrl);
+        const searchJson = await searchRes.json();
 
-        const json = await res.json();
-        if (!json.result || typeof json.result !== 'string') {
+        if (!searchJson.response.hits.length) {
             await sock.sendMessage(chatId, { 
-                text: '❌ Lyrics not found for this song!' 
+                text: '❌ No lyrics found for this song!' 
             });
             return;
         }
 
-        const lyricsText = `*🎵 ${songTitle}*\n\n${json.result}\n\n_Powered by XTeam API_`;
+        // Step 2: Get the first result
+        const song = searchJson.response.hits[0].result;
+        const lyricsPageUrl = song.url; // Genius does not provide raw lyrics via API
+
+        const lyricsText = `*🎵 ${songTitle}*\n\nLyrics are available at: ${lyricsPageUrl}\n\n_Powered by Genius API_`;
 
         await sock.sendMessage(chatId, {
             text: lyricsText,
