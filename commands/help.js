@@ -20,7 +20,7 @@ async function helpCommand(sock, chatId, channelLink) {
 ║ ➤ .tts <text>
 ║ ➤ .owner
 ║ ➤ .joke
-║ ➤ .quote
+║ ➤ 
 ║ ➤ .fact
 ║ ➤ .weather <city>
 ║ ➤ .news
@@ -36,10 +36,10 @@ async function helpCommand(sock, chatId, channelLink) {
 🎨 *Image/Sticker Commands*:
 ║ ➤ .blur <image>
 ║ ➤ .simage <reply to sticker>
-║ ➤ .sticker <reply to image>
+║ 
 ║ ➤ .meme
 ║ ➤ .take <packname> 
-║ ➤ .emojimix <emj1>+<emj2>
+║ 
 ╚═══════════════════╝   
 
 ╔═══════════════════╗
@@ -68,12 +68,12 @@ async function helpCommand(sock, chatId, channelLink) {
 ╚═══════════════════╝
 
 ╔═══════════════════╗
-🔗 *Github Commands:*
-║ ➤ .git
-║ ➤ .github
-║ ➤ .sc
-║ ➤ .script
-║ ➤ .repo
+║ ➤ .
+║ ➤ .
+║ ➤ .
+║ ➤ .
+║ ➤ .
+║ ➤ .
 ╚═══════════════════╝
 
 ╔═══════════════════╗
@@ -98,9 +98,9 @@ async function helpCommand(sock, chatId, channelLink) {
 ╚═══════════════════╝
 
 ╔═══════════════════╗
-🎯 *Downloader*:
-║ ➤ .play <song_name>
-║ ➤ .song <song_name>
+🎯
+║ ➤ .
+║ ➤ .
 ╚═══════════════════╝
 
 Join our channel for updates:`;
