@@ -4,13 +4,13 @@ async function ownerCommand(sock, chatId) {
     const vcard = `
 BEGIN:VCARD
 VERSION:3.0
-FN:${settings.botOwner}
+FN:Batman, The Dark Knight
 TEL;waid=${settings.ownerNumber}:${settings.ownerNumber}
 END:VCARD
 `;
 
     await sock.sendMessage(chatId, {
-        contacts: { displayName: settings.botOwner, contacts: [{ vcard }] },
+        contacts: { displayName: `${settings.botOwner} - The Caped Crusader`, contacts: [{ vcard }] },
     });
 }
 
