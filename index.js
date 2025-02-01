@@ -55,7 +55,7 @@ const store = makeInMemoryStore({
 let phoneNumber = "94761206570"
 let owner = JSON.parse(fs.readFileSync('./database/owner.json'))
 
-global.botname = "KNIGHT BOT"
+global.botname = "SELINA KAYLE"
 global.themeemoji = "•"
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
