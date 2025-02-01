@@ -9,23 +9,22 @@ async function lyricsCommand(sock, chatId, songTitle) {
     }
 
     try {
-        // Fetch lyrics from ChartLyrics API (No API key needed)
-        const apiUrl = `https://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=&song=${encodeURIComponent(songTitle)}`;
+        // Use Lyrical Nonsense API (No API key needed)
+        const apiUrl = `https://some-random-api.com/others/lyrics?title=${encodeURIComponent(songTitle)}`;
         const res = await fetch(apiUrl);
-        const text = await res.text();
+        
+        if (!res.ok) throw new Error(`API Error: ${res.status}`);
 
-        // Extract lyrics from XML response
-        const match = text.match(/<Lyric>(.*?)<\/Lyric>/s);
-        const lyrics = match ? match[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&') : null;
+        const json = await res.json();
 
-        if (!lyrics) {
+        if (!json.lyrics) {
             await sock.sendMessage(chatId, { 
                 text: '❌ Lyrics not found for this song!' 
             });
             return;
         }
 
-        const lyricsText = `*🎵 ${songTitle}*\n\n${lyrics}\n\n_Powered by ChartLyrics API_`;
+        const lyricsText = `*🎵 ${songTitle}*\n\n${json.lyrics}\n\n_Powered by SomeRandomAPI_`;
 
         await sock.sendMessage(chatId, {
             text: lyricsText,
@@ -38,7 +37,7 @@ async function lyricsCommand(sock, chatId, songTitle) {
     } catch (error) {
         console.error('Error in lyrics command:', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ The lyrics service is currently unavailable. Please try again later.' 
+            text: `❌ The lyrics service is currently unavailable.\n\nError: ${error.message}` 
         });
     }
 }
