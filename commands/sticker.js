@@ -24,8 +24,8 @@ async function stickerCommand(sock, chatId, message) {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    
+                    newsletterName: 'Selina Kayle',
                     serverMessageId: -1
                 }
             }
@@ -46,8 +46,8 @@ async function stickerCommand(sock, chatId, message) {
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
+                        
+                        newsletterName: 'Selina Kayle',
                         serverMessageId: -1
                     }
                 }
@@ -94,8 +94,8 @@ async function stickerCommand(sock, chatId, message) {
         // Create metadata
         const json = {
             'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-            'sticker-pack-name': settings.packname || 'KnightBot',
-            'sticker-pack-publisher': settings.author || '@bot',
+            'sticker-pack-name': settings.packname || 'Selina Kayle',
+            'sticker-pack-publisher': settings.author || '@Selina',
             'emojis': ['🤖']
         };
 
@@ -132,8 +132,8 @@ async function stickerCommand(sock, chatId, message) {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    
+                    newsletterName: 'Selina Kayle',
                     serverMessageId: -1
                 }
             }
