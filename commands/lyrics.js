@@ -9,18 +9,23 @@ async function lyricsCommand(sock, chatId, songTitle) {
     }
 
     try {
-        const apiUrl = `https://api.lyrics.ovh/v1/${encodeURIComponent(songTitle)}`;
+        // Fetch lyrics from ChartLyrics API (No API key needed)
+        const apiUrl = `https://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=&song=${encodeURIComponent(songTitle)}`;
         const res = await fetch(apiUrl);
-        const json = await res.json();
+        const text = await res.text();
 
-        if (!json.lyrics) {
+        // Extract lyrics from XML response
+        const match = text.match(/<Lyric>(.*?)<\/Lyric>/s);
+        const lyrics = match ? match[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&') : null;
+
+        if (!lyrics) {
             await sock.sendMessage(chatId, { 
                 text: '❌ Lyrics not found for this song!' 
             });
             return;
         }
 
-        const lyricsText = `*🎵 ${songTitle}*\n\n${json.lyrics}\n\n_Powered by Lyrics.ovh_`;
+        const lyricsText = `*🎵 ${songTitle}*\n\n${lyrics}\n\n_Powered by ChartLyrics API_`;
 
         await sock.sendMessage(chatId, {
             text: lyricsText,
