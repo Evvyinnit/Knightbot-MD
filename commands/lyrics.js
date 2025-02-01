@@ -10,35 +10,33 @@ async function lyricsCommand(sock, chatId, songTitle) {
     }
 
     try {
-        // Using xteam API instead of lolhuman
+        // Validate global API keys
+        if (!global.APIs?.xteam || !global.APIKeys?.['https://api.xteam.xyz']) {
+            throw new Error('API configuration is missing.');
+        }
+
         const apiUrl = `${global.APIs.xteam}/api/lirik?q=${encodeURIComponent(songTitle)}&apikey=${global.APIKeys['https://api.xteam.xyz']}`;
-        
         const res = await fetch(apiUrl);
-        const json = await res.json();
         
-        if (!json.result) {
+        if (!res.ok) {
+            throw new Error(`API responded with status: ${res.status}`);
+        }
+
+        const json = await res.json();
+        if (!json.result || typeof json.result !== 'string') {
             await sock.sendMessage(chatId, { 
                 text: '❌ Lyrics not found for this song!' 
             });
             return;
         }
 
-        const lyricsText = `*🎵 ${songTitle}*
-
-${json.result}
-
-_Powered by XTeam API_`;
+        const lyricsText = `*🎵 ${songTitle}*\n\n${json.result}\n\n_Powered by XTeam API_`;
 
         await sock.sendMessage(chatId, {
             text: lyricsText,
             contextInfo: {
                 forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    
-                    newsletterName: 'Selina Kayle',
-                    serverMessageId: -1
-                }
+                isForwarded: true
             }
         });
 
