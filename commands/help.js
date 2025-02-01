@@ -103,7 +103,7 @@ async function helpCommand(sock, chatId, channelLink) {
 ║ ➤ .
 ╚═══════════════════╝
 
-STILL UNDER DEVELOPMENT:`;
+STILL UNDER DEVELOPMENT @owner:`;
 
     try {
         const imagePath = path.join(__dirname, '../assets/bot_image.jpg');
