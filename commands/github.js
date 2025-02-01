@@ -1,8 +1,8 @@
 async function githubCommand(sock, chatId) {
-    const repoInfo = `*🤖 KnightBot MD*
+    const repoInfo = `*🤖 Selina Kayle*
 
 *📂 GitHub Repository:*
-https://github.com/Evvyinnit/Knightbot-MD
+https://github.com/Evvyinnit/SelinaKayle
 
 *📢 Official Channel:*
 https://youtube.com/@evvyxan
@@ -16,8 +16,8 @@ _Star ⭐ the repository if you like the bot!_`;
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    
+                    newsletterName: 'Selina Kayle',
                     serverMessageId: -1
                 }
             }
