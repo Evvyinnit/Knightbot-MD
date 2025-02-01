@@ -5,8 +5,8 @@ const path = require('path');
 async function helpCommand(sock, chatId, channelLink) {
     const helpMessage = `
 ╔═══════════════════╗
-   *🤖 ${settings.botName || 'KnightBot-MD'}*  
-   Version: *${settings.version || '1.0.0'}*
+   *🤖 ${settings.botName || 'Selina Kayle'}*  
+   Version: *${settings.version || '1.0.2'}*
    by ${settings.botOwner || 'Nimesh D. Bandara'}
 ╚═══════════════════╝
 
@@ -118,8 +118,8 @@ Join our channel for updates:`;
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
+                        
+                        newsletterName: 'Selina Kayle',
                         serverMessageId: -1
                     }
                 }
@@ -132,8 +132,8 @@ Join our channel for updates:`;
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
+                        
+                        newsletterName: 'Selina Kayle',
                         serverMessageId: -1
                     } 
                 }
