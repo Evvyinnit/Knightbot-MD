@@ -5,7 +5,7 @@ const isAdmin = require('../helpers/isAdmin');
 async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSenderAdmin) {
     try {
         if (!isSenderAdmin) {
-            await sock.sendMessage(chatId, { text: '```For Group Admins Only!```' });
+            await sock.sendMessage(chatId, { text: '```ගෲප් ඇඩ්මින්ලට විතරයි මේක 😒```' });
             return;
         }
 
@@ -23,18 +23,18 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
             case 'on':
                 const existingConfig = await getAntilink(chatId, 'on');
                 if (existingConfig?.enabled) {
-                    await sock.sendMessage(chatId, { text: '*_Antilink is already on_*' });
+                    await sock.sendMessage(chatId, { text: '*_Antilink දැනටමත් වැඩ😤_*' });
                     return;
                 }
                 const result = await setAntilink(chatId, 'on', 'delete');
                 await sock.sendMessage(chatId, { 
-                    text: result ? '*_Antilink has been turned ON_*' : '*_Failed to turn on Antilink_*' 
+                    text: result ? '*_Antilink ඔන් උනා 😌_*' : '*_මොකක් හරි ඖලක් වැඩ නෑ මේක 🥺_*' 
                 });
                 break;
 
             case 'off':
                 await removeAntilink(chatId, 'on');
-                await sock.sendMessage(chatId, { text: '*_Antilink has been turned OFF_*' });
+                await sock.sendMessage(chatId, { text: '*_Antilink ඕෆ් උනා 😏_*' });
                 break;
 
             case 'set':
