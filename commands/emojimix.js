@@ -18,23 +18,26 @@ async function emojimixCommand(sock, chatId, msg) {
 
         let [emoji1, emoji2] = text.split('+').map(e => e.trim());
 
+        // Convert emojis to Unicode format (Google API requires Unicode)
+        function toUnicode(emoji) {
+            return [...emoji].map(c => c.codePointAt(0).toString(16)).join('-');
+        }
+
+        const emoji1Code = toUnicode(emoji1);
+        const emoji2Code = toUnicode(emoji2);
+
         // Step 1: Fetch valid emoji mixes from Google's Emoji Kitchen API
-        const googleApi = `https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ
-        &contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`;
+        const googleApi = `https://www.gstatic.com/android/keyboard/emojikitchen/v1/${emoji1Code}/${emoji1Code}_${emoji2Code}.png`;
 
+        // Check if image exists
         const response = await fetch(googleApi);
-        const json = await response.json();
-
-        if (!json.results || json.results.length === 0) {
+        if (!response.ok) {
             await sock.sendMessage(chatId, { 
                 text: '❌ These emojis cannot be mixed! Try different ones.' 
             });
             return;
         }
 
-        const imageUrl = json.results[0].url; // Get emoji mix image URL
-
-        // Step 2: Download and process the image
         const tmpDir = path.join(process.cwd(), 'tmp');
         if (!fs.existsSync(tmpDir)) {
             fs.mkdirSync(tmpDir, { recursive: true });
@@ -43,8 +46,7 @@ async function emojimixCommand(sock, chatId, msg) {
         const tempFile = path.join(tmpDir, `temp_${Date.now()}.png`);
         const outputFile = path.join(tmpDir, `sticker_${Date.now()}.webp`);
 
-        const imageResponse = await fetch(imageUrl);
-        const buffer = await imageResponse.buffer();
+        const buffer = await response.buffer();
         fs.writeFileSync(tempFile, buffer);
 
         // Convert to WebP using FFmpeg
@@ -61,7 +63,6 @@ async function emojimixCommand(sock, chatId, msg) {
             });
         });
 
-        // Check if output file exists
         if (!fs.existsSync(outputFile)) {
             throw new Error('Failed to create sticker file');
         }
