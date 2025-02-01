@@ -68,7 +68,6 @@ const emojimixCommand = require('./commands/emojimix');
 const { handlePromotionEvent } = require('./commands/promote');
 const { handleDemotionEvent } = require('./commands/demote');
 const viewOnceCommand = require('./commands/viewonce');
-const GENIUS_API_KEY = process.env.GENIUS_API_KEY;
 
 // Global settings
 global.packname = settings.packname;
