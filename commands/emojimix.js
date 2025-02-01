@@ -8,13 +8,6 @@ async function emojimixCommand(sock, chatId, msg) {
         // Extract text from message
         const text = msg.message?.conversation?.trim() || 
                     msg.message?.extendedTextMessage?.text?.trim() || '';
-        
-        const args = text.split(' ').slice(1);
-        
-        if (!args[0]) {
-            await sock.sendMessage(chatId, { text: '🎴 Example: .emojimix 😎+🥰' });
-            return;
-        }
 
         if (!text.includes('+')) {
             await sock.sendMessage(chatId, { 
@@ -23,31 +16,41 @@ async function emojimixCommand(sock, chatId, msg) {
             return;
         }
 
-        let [emoji1, emoji2] = args[0].split('+').map(e => e.trim());
+        let [emoji1, emoji2] = text.split('+').map(e => e.trim());
 
-        // Using Google Emoji Kitchen API (More reliable)
-        const url = `https://www.gstatic.com/android/keyboard/emojikitchen/${encodeURIComponent(emoji1)}/${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}.png`;
+        // Step 1: Get valid emoji mixes from Google's Emoji Kitchen API
+        const googleApi = `https://emojikitchen.dev/api/v2/combos/${encodeURIComponent(emoji1)}`;
+        const response = await fetch(googleApi);
+        const json = await response.json();
 
-        const imageResponse = await fetch(url);
-        
-        if (!imageResponse.ok) {
+        if (!json.combos || json.combos.length === 0) {
             await sock.sendMessage(chatId, { 
                 text: '❌ These emojis cannot be mixed! Try different ones.' 
             });
             return;
         }
 
-        // Create temp directory if it doesn't exist
+        // Step 2: Check if the second emoji is in the list of valid combinations
+        const match = json.combos.find(combo => combo.secondary === emoji2);
+        if (!match) {
+            await sock.sendMessage(chatId, { 
+                text: '❌ These emojis cannot be mixed! Try different ones.' 
+            });
+            return;
+        }
+
+        const imageUrl = match.image_url; // URL of the mixed emoji
+
+        // Step 3: Download and process the image
         const tmpDir = path.join(process.cwd(), 'tmp');
         if (!fs.existsSync(tmpDir)) {
             fs.mkdirSync(tmpDir, { recursive: true });
         }
 
-        // Generate filenames
         const tempFile = path.join(tmpDir, `temp_${Date.now()}.png`);
         const outputFile = path.join(tmpDir, `sticker_${Date.now()}.webp`);
 
-        // Save image to temp file
+        const imageResponse = await fetch(imageUrl);
         const buffer = await imageResponse.buffer();
         fs.writeFileSync(tempFile, buffer);
 
@@ -70,21 +73,15 @@ async function emojimixCommand(sock, chatId, msg) {
             throw new Error('Failed to create sticker file');
         }
 
-        // Read the WebP file
-        const stickerBuffer = fs.readFileSync(outputFile);
-
         // Send the sticker
+        const stickerBuffer = fs.readFileSync(outputFile);
         await sock.sendMessage(chatId, { 
             sticker: stickerBuffer 
         }, { quoted: msg });
 
         // Cleanup temp files
-        try {
-            fs.unlinkSync(tempFile);
-            fs.unlinkSync(outputFile);
-        } catch (err) {
-            console.error('Error cleaning up temp files:', err);
-        }
+        fs.unlinkSync(tempFile);
+        fs.unlinkSync(outputFile);
 
     } catch (error) {
         console.error('Error in emojimix command:', error);
