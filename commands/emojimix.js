@@ -18,30 +18,23 @@ async function emojimixCommand(sock, chatId, msg) {
 
         let [emoji1, emoji2] = text.split('+').map(e => e.trim());
 
-        // Step 1: Get valid emoji mixes from Google's Emoji Kitchen API
-        const googleApi = `https://emojikitchen.dev/api/v2/combos/${encodeURIComponent(emoji1)}`;
+        // Step 1: Fetch valid emoji mixes from Google's Emoji Kitchen API
+        const googleApi = `https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ
+        &contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`;
+
         const response = await fetch(googleApi);
         const json = await response.json();
 
-        if (!json.combos || json.combos.length === 0) {
+        if (!json.results || json.results.length === 0) {
             await sock.sendMessage(chatId, { 
                 text: '❌ These emojis cannot be mixed! Try different ones.' 
             });
             return;
         }
 
-        // Step 2: Check if the second emoji is in the list of valid combinations
-        const match = json.combos.find(combo => combo.secondary === emoji2);
-        if (!match) {
-            await sock.sendMessage(chatId, { 
-                text: '❌ These emojis cannot be mixed! Try different ones.' 
-            });
-            return;
-        }
+        const imageUrl = json.results[0].url; // Get emoji mix image URL
 
-        const imageUrl = match.image_url; // URL of the mixed emoji
-
-        // Step 3: Download and process the image
+        // Step 2: Download and process the image
         const tmpDir = path.join(process.cwd(), 'tmp');
         if (!fs.existsSync(tmpDir)) {
             fs.mkdirSync(tmpDir, { recursive: true });
