@@ -8,7 +8,7 @@ async function attpCommand(sock, chatId, message) {
     const text = userMessage.split(' ').slice(1).join(' ');
 
     if (!text) {
-        await sock.sendMessage(chatId, { text: 'Please provide text after the .attp command.' });
+        await sock.sendMessage(chatId, { text: 'attp කියලා ගැහුවට පස්සේ මොනා හරි ටයිප් කරලා සෙන්ඩ් කරන්න.' });
         return;
     }
 
