@@ -4,7 +4,7 @@ const settings = {
   botName: "Selina Kayle",
   botOwner: 'Nimesh D. Bandara', // Your name
   ownerNumber: '94761206570', //Your number
-  giphyApiKey: 'qnl7ssQChTdPjsKta2Ax2LMaGXz303tq',
+  giphyApiKey: 'owbQxhtRXxTBlrFTX9pwMpeIdFX9beA0',
   commandMode: "private",
   description: "ආතල් එකට දැම්මේ 😃👍",
   version: "1.0.2",
