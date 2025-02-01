@@ -1,12 +1,12 @@
 async function ownerCommand(sock, chatId) {
-    const ownerName = "Nimesh D. Bandara"; // Change this to your name
-    const ownerNumber = "+94761206570"; // Change this to your WhatsApp number
+    const ownerName = "Nimesh D. Bandara";
+    const ownerNumber = "+94761206570@s.whatsapp.net"; // Correct WhatsApp format
 
     const vcard = `
 BEGIN:VCARD
 VERSION:3.0
 FN:${ownerName}
-TEL;waid=${ownerNumber}:${ownerNumber}
+TEL;waid=94761206570:94761206570
 END:VCARD
 `;
 
