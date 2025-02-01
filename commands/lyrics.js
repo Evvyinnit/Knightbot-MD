@@ -1,7 +1,4 @@
 const fetch = require('node-fetch');
-require('../config.js');
-
-const GENIUS_API_KEY = global.APIKeys['https://api.genius.com']; // Make sure your config has this
 
 async function lyricsCommand(sock, chatId, songTitle) {
     if (!songTitle) {
@@ -12,27 +9,18 @@ async function lyricsCommand(sock, chatId, songTitle) {
     }
 
     try {
-        if (!GENIUS_API_KEY) {
-            throw new Error('Missing Genius API Key.');
-        }
+        const apiUrl = `https://api.lyrics.ovh/v1/${encodeURIComponent(songTitle)}`;
+        const res = await fetch(apiUrl);
+        const json = await res.json();
 
-        // Step 1: Search for the song
-        const searchUrl = `https://api.genius.com/search?q=${encodeURIComponent(songTitle)}&access_token=${GENIUS_API_KEY}`;
-        const searchRes = await fetch(searchUrl);
-        const searchJson = await searchRes.json();
-
-        if (!searchJson.response.hits.length) {
+        if (!json.lyrics) {
             await sock.sendMessage(chatId, { 
-                text: '❌ No lyrics found for this song!' 
+                text: '❌ Lyrics not found for this song!' 
             });
             return;
         }
 
-        // Step 2: Get the first result
-        const song = searchJson.response.hits[0].result;
-        const lyricsPageUrl = song.url; // Genius does not provide raw lyrics via API
-
-        const lyricsText = `*🎵 ${songTitle}*\n\nLyrics are available at: ${lyricsPageUrl}\n\n_Powered by Genius API_`;
+        const lyricsText = `*🎵 ${songTitle}*\n\n${json.lyrics}\n\n_Powered by Lyrics.ovh_`;
 
         await sock.sendMessage(chatId, {
             text: lyricsText,
