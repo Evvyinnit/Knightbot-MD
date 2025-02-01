@@ -15,7 +15,7 @@ async function banCommand(sock, chatId, message) {
     
     if (!userToBan) {
         await sock.sendMessage(chatId, { 
-            text: 'Please mention the user or reply to their message to ban!', 
+            text: 'අදාල කෙනාව මෙන්ශන් කරන්න නැත්තම් පොරගෙ මැසේජ් එක්කට මේ කමාන්ඩ් එක රිප්ලයි කරන්න', 
             ...channelInfo 
         });
         return;
